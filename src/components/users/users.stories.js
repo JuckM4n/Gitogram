@@ -1,7 +1,7 @@
 import users from './users.vue'
 
 export default {
-  title: 'users',
+  title: "users",
   component: {
     users
   },
@@ -12,17 +12,17 @@ export default {
   }
 }
 
-const template = (args) => ({
+const template = (args) =>({
   components: {
     xUsers: users
   },
   data () {
     return { args }
   },
-  template: '<x-users :login="args.user__login"></x-users>'
+  template: `<x-users :login="args.user__login"></x-users>`
 })
 
-export const Default = template.bind(template)
+export const Default = template.bind(template);
 
 Default.args = {
   user__login: 'user__login'

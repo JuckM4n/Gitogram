@@ -11,10 +11,9 @@
       </template>
       <template #content>
         <ul class="stories">
-          <li v-for="item in trendings" :id="item.id" :key="item.id" class="stories__item">
-            <user-stories
-              :data=getStoryData(item)
-              @onPress="$router.push({name: 'stories', params: {id: item.id}})"
+          <li class="stories__item" v-for="item in trendings" :key="item.id" :id="item.id">
+            <user-stories :data=getStoryData(item)
+                          @onPress="$router.push({name: 'stories', params: {id: item.id}})"
             />
           </li>
         </ul>
@@ -23,7 +22,7 @@
   </div>
   <div class="container">
     <ul class="post-list">
-      <li v-for="n in 3" :key="n" class="post__item">
+      <li class="post__item" v-for="n in 3" :key="n">
         <post/>
       </li>
     </ul>
@@ -39,7 +38,7 @@ import { post } from '../../components/post'
 import { headerNav } from '../../components/headerNav'
 // import { slider } from '../../components/slider'
 // import * as api from '../../api'
-import { mapActions, mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'feeds',
@@ -83,4 +82,4 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped src="./feeds.scss"></style>
+<style lang="scss" src="./feeds.scss" scoped></style>

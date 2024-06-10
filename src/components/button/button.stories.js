@@ -1,17 +1,18 @@
 import button from './button.vue'
 
 export default {
-  title: 'button',
+  title: "button",
   component: {
     button
   }
 }
 
-const template = () => ({
+const template = () =>({
   components: {
     xButton: button
   },
-  template: '<x-button></x-button>'
+  template: `<x-button></x-button>`
 })
 
-export const Default = template.bind({})
+export const Default = template.bind({});
+
