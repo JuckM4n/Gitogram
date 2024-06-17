@@ -1,18 +1,19 @@
 <template>
-    <component :is="name"/>
+  <component :is="name" />
 </template>
 
 <script>
-import * as icons from './variants'
+import * as Icons from "@/icons/variants";
+
 export default {
-  name: 'Icon',
-  components: { ...icons },
+  name: "Icon",
+  components: {...Icons},
   props: {
     name: {
       type: String,
       required: true,
-      validator (value) {
-        return Object.keys(icons).includes(value)
+      validator(value) {
+        return Object.keys(Icons).includes(value);
       }
     }
   }

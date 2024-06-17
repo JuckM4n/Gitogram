@@ -1,13 +1,34 @@
 <template>
-    <div class="c-topline">
-        <div class="x-container">
-            <div class="headline">
-                <slot name="headline" />
-            </div>
-            <div class="content" v-if="$slots.content">
-                <slot name="content" />
-            </div>
-        </div>
+  <div
+    :class="{'topline--basic' : isBasic}"
+    class="topline"
+  >
+    <div class="container container--xl">
+      <div class="topline__headline">
+        <slot name="headline" />
+      </div>
+      <div
+        v-if="$slots.content"
+        class="topline__content"
+      >
+        <slot name="content" />
+      </div>
     </div>
+  </div>
 </template>
-<style src="./topline.scss" lang="scss" scoped></style>
+
+<script>
+export default {
+  name: 'Topline',
+  props: {
+    isBasic: {
+      type: Boolean,
+      default: false,
+    },
+  },
+}
+</script>
+
+<style lang="scss" scoped>
+  @import "./topline.scss";
+</style>

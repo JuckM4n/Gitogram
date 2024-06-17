@@ -1,6 +1,6 @@
-import axios from 'axios'
+import axios from 'axios';
 
-const baseURL = 'https://api.github.com'
+const baseURL = 'https://api.github.com';
 
 export const makeRequest = ({
   url, method = 'get', data = {}, headers = {}
@@ -10,4 +10,4 @@ export const makeRequest = ({
   data,
   baseURL,
   headers
-})
+});

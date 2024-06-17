@@ -1,12 +1,25 @@
-/** @type { import('@storybook/vue3-webpack5').StorybookConfig } */
-const config = {
-  stories: ["../src/components/**/*.stories.js"],
-  addons: [
+const path = require("path");
+
+module.exports = {
+  "stories": [
+    // "../src/**/*.stories.mdx",
+    // "../src/**/*.stories.@(js|jsx|ts|tsx)"
+    "../src/components/**/*.stories.js"
+  ],
+  "addons": [
     "@storybook/addon-links",
     "@storybook/addon-essentials",
-    "@storybook/addon-interactions",
+    "@storybook/addon-interactions"
   ],
+  "framework": "@storybook/vue3",
+  "core": {
+    "builder": "@storybook/builder-webpack5"
+  },
   webpackFinal: config => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      "@": path.resolve(__dirname, "../src"),
+    };
     config.module.rules.push({
       test: /.scss$/i,
       use: [
@@ -14,15 +27,7 @@ const config = {
         "css-loader",
         "sass-loader"
       ]
-    })
+    });
     return config;
-  },
-  framework: {
-    name: "@storybook/vue3-webpack5",
-    options: {},
-  },
-  docs: {
-    autodocs: "tag",
-  },
-};
-export default config;
+  }
+}

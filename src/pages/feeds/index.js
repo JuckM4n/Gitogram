@@ -1,1 +1,1 @@
-export { default as feeds } from './feeds'
+export {default as Feeds} from './Feeds';

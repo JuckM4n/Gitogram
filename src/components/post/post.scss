@@ -1,22 +1,30 @@
-.c-post{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-.post__user{
+.post {
+  border: 1px solid #f1f1f1;
+  border-radius: 10px;
+  box-shadow: 0px 4px 40px rgba(0, 0, 0, 0.07);
+
+  padding: 24px 20px;
+
+  &__author {
     margin-bottom: 16px;
+  }
 }
-.post__card{
-    margin-bottom: 18px;
-}
-.date{
-    color: rgba(0, 0, 0, 0.40);
-    font-family: Inter;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 14px; /* 116.667% */
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
-    margin-top: 10px;
+
+.post-author {
+  display: flex;
+  align-items: center;
+
+  &__avatar {
+    border-radius: 50%;
+    margin-right: 14px;
+    width: 44px;
+    height: 44px;
+  }
+
+  &__nickname {
+    color: #262626;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.1px;
+  }
 }

@@ -1,36 +1,50 @@
 <template>
-    <div class="c-stories">
-        <header class="header">
-            <div class="x-container">
-                <button class="logo" @click="$router.push('/')">
-                    <icon name="logo"/>
-                </button>
-                <button class="close-btn" @click="$router.push('/')">
-                    <icon name="exit" />
-                </button>
-            </div>
-        </header>
-        <div class="content">
-            <slider :initialSlide="Number($route.params.id)" />
-        </div>
+  <div class="stories">
+    <Topline
+      :isBasic="true"
+      class="stories__topline stories-topline"
+    >
+      <template #headline>
+        <button
+          @click="$router.push('/')"
+        >
+          <Logo class="stories-topline__logo" />
+        </button>
+        <button
+          @click="$router.push('/')"
+          class="stories-topline__close"
+        >
+          <Icon name="Close" />
+        </button>
+      </template>
+    </Topline>
+    <div class="stories__content">
+      <StoriesSlider
+        :slide="Number($route.params.slide)"
+        class="stories__slider"
+      />
     </div>
+  </div>
 </template>
 
 <script>
-import { icon } from '../../icons'
-import { slider } from '../../components/slider'
+import { Topline } from "@/components/topline";
+import { Logo } from "@/components/logo";
+import { StoriesSlider } from "@/components/storiesSlider";
+
+import { Icon } from "@/icons";
+
 export default {
-  name: 'stories',
+  name: "Stories",
   components: {
-    icon,
-    slider
+    Topline,
+    Logo,
+    StoriesSlider,
+    Icon,
   },
-  methods: {
-    goToFeeds () {
-      this.$router.push('/')
-    }
-  }
 }
 </script>
 
-<style src="./stories.scss" lang="scss" scoped></style>
+<style scoped lang="scss">
+  @import "./stories";
+</style>

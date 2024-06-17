@@ -1,19 +1,26 @@
-.button{
-    display: inline-flex;
-    align-items: center;
-    padding: 0;
+.toggler {
+  $self: &;
 
-    .icon{
-        width: 16px;
-        transform: rotate(180deg);
-    }
+  color: #212121;
+  display: inline-flex;
+  align-items: center;
 
-    &.active{
-        .icon{
-            transform: rotate(0deg);
-        }
+  &__icon {
+    width: 10px;
+  }
+
+  &.active {
+    #{$self}__icon {
+      transform: rotate(180deg);
     }
-}
-.text{
+  }
+
+  &__caption {
+    color: #292929;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 22px;
+
     margin-right: 5px;
+  }
 }

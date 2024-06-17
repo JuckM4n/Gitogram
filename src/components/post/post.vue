@@ -1,29 +1,37 @@
 <template>
-    <div class="c-post">
-        <div class="post__user">
-            <users />
-        </div>
-        <div class="post__card">
-            <card />
-        </div>
-        <div class="comments">
-            <feed />
-        </div>
-        <div class="date">15 MAY</div>
+  <div class="post">
+    <div class="post__author post-author">
+      <img
+        :src="avatar"
+        class="post-author__avatar"
+        alt="Author preview"
+      >
+      <p class="post-author__nickname">
+        {{ username }}
+      </p>
     </div>
+    <div class="post__topic">
+      <slot name="topic" />
+    </div>
+  </div>
 </template>
 
 <script>
-import { users } from '../users'
-import { feed } from '../feed'
-import { card } from '../card'
 export default {
-  name: 'post',
-  components: {
-    users,
-    feed,
-    card
+  name: "Post",
+  props: {
+    username: {
+      type: String,
+      required: true,
+    },
+    avatar: {
+      type: String,
+      required: true,
+    },
   }
 }
 </script>
-<style lang="scss" src="./post.scss" scoped></style>
+
+<style lang="scss" scoped>
+  @import "./post.scss";
+</style>

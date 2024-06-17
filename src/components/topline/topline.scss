@@ -1,11 +1,20 @@
-.x-container {
-    width: 1200px;
-}
+.topline {
+  background-color: #fafafa;
+  border-bottom: 1px solid #c6c6c8;
+  padding: 45px 0 37px;
 
-.headline {
+  &--basic {
+    background-color: transparent;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  &__headline {
     display: flex;
     justify-content: space-between;
-}
-.content{
-    margin-top: 34px;
+  }
+
+  &__content {
+    margin-top: 45px;
+  }
 }
