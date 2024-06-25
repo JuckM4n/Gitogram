@@ -1,1 +1,1 @@
-export {default as StoriesSlider} from './StoriesSlider';
+export { default as storiesSlider } from './storiesSlider.vue'

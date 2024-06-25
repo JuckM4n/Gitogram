@@ -3,18 +3,16 @@
 </template>
 
 <script>
-import * as Icons from "@/icons/variants";
-
+import * as icons from './variants'
 export default {
-  name: "Icon",
-  components: {...Icons},
+  name: 'Icon',
+  components: {
+    ...icons
+  },
   props: {
     name: {
       type: String,
-      required: true,
-      validator(value) {
-        return Object.keys(Icons).includes(value);
-      }
+      required: true
     }
   }
 }

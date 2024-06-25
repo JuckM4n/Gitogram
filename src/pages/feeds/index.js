@@ -1,1 +1,1 @@
-export {default as Feeds} from './Feeds';
+export { default as feeds } from './Feeds.vue'

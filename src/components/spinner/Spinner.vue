@@ -1,21 +1,16 @@
 <template>
-  <Icon
-    name="Spinner"
-    class="spinner"
-  />
+  <div class="loading">
+    <icon class="loading-img" name="loading" />
+  </div>
 </template>
 
 <script>
-import { Icon } from "@/icons";
-
+import icon from '@/icons/icon.vue'
 export default {
-  name: 'Spinner',
   components: {
-    Icon,
-  },
+    icon
+  }
 }
 </script>
 
-<style lang="scss" scoped>
-  @import "./spinner";
-</style>
+<style src="./spinner.scss" lang="scss" scoped></style>

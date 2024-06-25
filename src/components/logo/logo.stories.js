@@ -1,21 +1,19 @@
-import Logo from "./Logo.vue";
+import logo from './logo.vue'
 
 export default {
-  title: 'Logo',
-  component: { Logo },
+  title: 'logo',
+  component: {
+    logo
+  }
 }
 
-const defaultTemplate = () => ({
+const template = () => ({
   components: {
-    Logo
+    logo
   },
   template: `
-    <Logo />
+  <logo />
   `
-});
+})
 
-export const defaultView = defaultTemplate.bind({});
-
-defaultView.story = {
-  name: 'Стандартный вид'
-};
+export const Default = template.bind({})

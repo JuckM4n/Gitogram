@@ -1,44 +1,19 @@
-import Toggler from "./Toggler.vue";
+import toggler from './toggler.vue'
 
 export default {
-  title: 'Toggler',
-  component: { Toggler },
-  argTypes: {
-    onToggle: {
-      action: 'onToggle',
-      description: 'Show issues on click'
-    },
-    isOpened: {
-      control: {
-        type: 'boolean'
-      }
-    },
+  title: 'toggler',
+  component: {
+    toggler
   }
 }
 
-const defaultTemplate = (args) => ({
+const template = () => ({
   components: {
-    Toggler
-  },
-  data() {
-    return {
-      args,
-    };
+    toggler
   },
   template: `
-    <Toggler
-      @onToggle="args.onToggle"
-      v-bind="args"
-    />
+  <toggler />
   `
-});
+})
 
-export const defaultView = defaultTemplate.bind({});
-
-defaultView.args = {
-  isOpened: false,
-};
-
-defaultView.story = {
-  name: 'Стандартный вид'
-};
+export const Default = template.bind({})

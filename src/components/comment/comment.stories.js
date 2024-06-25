@@ -1,45 +1,18 @@
-import Comment from "./Comment.vue";
+import comments from './comment.vue'
 
 export default {
-  title: 'Comment',
-  component: { Comment },
-  argTypes: {
-    author: {
-      control: {
-        type: 'text'
-      }
-    },
-    message: {
-      control: {
-        type: 'text'
-      }
-    },
-  }
+  title: 'comments',
+  component: { comments }
 }
 
-const defaultTemplate = (args) => ({
-  components: {
-    Comment
-  },
-  data() {
-    return {
-      args,
-    };
-  },
+const template = () => ({
+  components: { comments },
   template: `
-    <Comment
-      v-bind="args"
-    />
+  <comments 
+  username="Tim"
+  text="Ooops"
+  />
   `
-});
+})
 
-export const defaultView = defaultTemplate.bind({});
-
-defaultView.args = {
-  author: "Mike",
-  message: "Message from Mike"
-};
-
-defaultView.story = {
-  name: 'Стандартный вид'
-};
+export const Default = template.bind({})

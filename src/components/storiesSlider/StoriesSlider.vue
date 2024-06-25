@@ -1,130 +1,114 @@
 <template>
-  <div class="stories-slider">
-    <!-- <pre>{{trendings}}</pre> -->
-    <ul
-      class="stories-slider__list"
-      ref="slider"
-    >
-      <li
-        v-for="(trending, index) in trendings"
-        :key="trending.id"
-        ref="item"
-        class="stories-slider__item"
-      >
-        <Slide
+  <div class="c-stories-slider">
+    <div class="stories-container">
+      <ul class="stories" ref="slider">
+        <li class="stories-item" v-for="(trending, ndx) in trendings" :key="trending.id" ref="item">
+          <story-post-item
           :data="getStoryData(trending)"
-          :isActive="slideIndex === index"
-          :isLoading="slideIndex === index && isLoading"
-          :buttonsShown="activeButtons"
-          @onPrevSlide="handleSlide(index - 1)"
-          @onNextSlide="handleSlide(index + 1)"
-          @onProgressFinish="handleSlide(index + 1)"
-          class="stories-slider__slide"
-        >
-          <template #footer>
-            <SlideButton>
-              Follow
-            </SlideButton>
-          </template>
-        </Slide>
-      </li>
-    </ul>
+          :active="slideNdx === ndx"
+          :loading="slideNdx === ndx && loading"
+          :btnsShown="activeBtns"
+          @next="handleSlide(ndx + 1)"
+          @prev="handleSlide(ndx - 1)"
+          @onFinish="handleSlide(ndx + 1)"
+          @onFollow="starRepo(trending.id)"
+          @onUnFollow="unStarRepo(trending.id)"
+          />
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script>
-import { Slide } from "@/components/slide";
-import { SlideButton } from '@/components/slide/components/slideButton';
-
-import { mapState, mapActions } from 'vuex';
-
+import storyPostItem from '../storyPostItem/storyPostItem.vue'
+import { mapState, mapActions } from 'vuex'
 export default {
-  name: 'StoriesSlider',
   components: {
-    Slide,
-    SlideButton,
-  },
-  data() {
-    return {
-      slideIndex: 0,
-      sliderPosition: 0,
-      isLoading: false,
-      isNavButtonsVisible: true,
-    };
+    storyPostItem
   },
   props: {
-    slide: {
-      type: Number,
-    },
+    initialSlide: {
+      type: Number
+    }
+  },
+  emits: ['onFinish', 'onNext', 'onPrev', 'onFollow'],
+  data () {
+    return {
+      slideNdx: 0,
+      sliderPosition: 0,
+      loading: false,
+      btnsShown: true
+    }
   },
   computed: {
     ...mapState({
-      trendings: (state) => state.trendings.data,
+      trendings: state => state.trendings.data
     }),
-    activeButtons() {
-      if (!this.isNavButtonsVisible) return [];
-      if (this.slideIndex === 0) return ['next'];
-      if (this.slideIndex === this.trendings.length - 1) return ['prev'];
-      return ['prev', 'next'];
+    activeBtns () {
+      if (this.btnsShown === false) return []
+      if (this.slideNdx === 0) return ['next']
+      if (this.slideNdx === this.trendings.length - 1) return ['prev']
+      return ['next', 'prev']
     }
   },
   methods: {
     ...mapActions({
       fetchTrendings: 'trendings/fetchTrendings',
-      fetchReadme: 'trendings/fetchReadme'
+      fetchReadme: 'trendings/fetchReadme',
+      starRepo: 'trendings/starRepo',
+      unStarRepo: 'trendings/unStarRepo'
     }),
-    async fetchReadmeForActiveSlide() {
-      const {id, owner, name} = this.trendings[this.slideIndex];
-
-      await this.fetchReadme({id, owner: owner.login, repo: name});
+    async fetchReadmeForActiveSlide () {
+      const { id, owner, name } = this.trendings[this.slideNdx]
+      await this.fetchReadme({ id, owner: owner.login, repo: name })
     },
-    getStoryData(obj) {
+    moveSlider (slideNdx) {
+      const { slider, item } = this.$refs
+      const slideWidth = parseInt(getComputedStyle(item[slideNdx]).getPropertyValue('width'), 10)
+      this.slideNdx = slideNdx
+      this.sliderPosition = -(slideWidth * slideNdx)
+      slider.style.transform = `translateX(${this.sliderPosition}px)`
+    },
+    async loadReadme () {
+      this.loading = true
+      this.btnsShown = false
+      try {
+        await this.fetchReadmeForActiveSlide()
+      } catch (e) {
+        console.log(e)
+        throw e
+      } finally {
+        this.loading = false
+        this.btnsShown = true
+      }
+    },
+    async handleSlide (slideNdx) {
+      this.moveSlider(slideNdx)
+      await this.loadReadme()
+    },
+    getStoryData (obj) {
       return {
         id: obj.id,
         avatar: obj.owner?.avatar_url,
         username: obj.owner?.login,
         content: obj.readme,
-      };
-    },
-    moveSlider(index) {
-      const { slider, item } = this.$refs;
-      const slideWidth = parseInt(getComputedStyle(item[index]).getPropertyValue('width'), 10);
-
-      this.slideIndex = index;
-      this.sliderPosition = -(slideWidth * index);
-      slider.style.transform = `translateX(${this.sliderPosition}px)`;
-    },
-    async loadReadme() {
-      this.isLoading = true;
-      this.isNavButtonsVisible = false;
-      try {
-        await this.fetchReadmeForActiveSlide();
-      } catch(err) {
-        console.log(err);
-        throw err;
-      } finally {
-        this.isLoading = false;
-        this.isNavButtonsVisible = true;
+        following: obj.following,
+        loading: obj.loading
       }
-    },
-    async handleSlide(index) {
-      this.moveSlider(index);
-      await this.loadReadme();
-    },
-  },
-  async mounted() {
-    await this.fetchTrendings();
-    await this.loadReadme();
-
-    if (this.slide && this.trendings.length) {
-      const index = this.trendings.findIndex((item) => item.id === this.slide);
-
-      await this.handleSlide(index);
     }
+  },
+  async mounted () {
+    if (this.initialSlide) {
+      const ndx = this.trendings.findIndex(
+        (item) => item.id === this.initialSlide
+      )
+      await this.handleSlide(ndx)
+    }
+    await this.fetchTrendings()
+    await this.loadReadme()
   }
 }
 </script>
 
-<style lang="scss" scoped>
-  @import "./stories-slider";
-</style>
+<style src="./storiesSlider.scss" lang="scss" scoped></style>

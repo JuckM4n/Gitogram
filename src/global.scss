@@ -1,27 +1,17 @@
-*,
-*:after,
-*:before {
-  background: none;
-  border: none;
-  box-shadow: none;
-  box-sizing: border-box;
-  color: unset;
-
-  outline: none;
-}
-
-html, body {
-  height: 100%;
-}
-
-body {
+#app {
+  font-family: 'Inter', Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+}
 
-  color: #262626;
-  font-family: 'Inter', sans-serif;
-  font-size: 16px;
-  line-height: 1.1;
+body, html {
+  height: 100%;
+  margin: auto;
+}
+
+h2 {
+  margin: 0;
 }
 
 ul {
@@ -32,8 +22,7 @@ ul {
 
 img {
   display: block;
-  width: 100%;
-  height: auto;
+  max-width: 100%;
 }
 
 p {
@@ -45,25 +34,23 @@ svg {
 }
 
 button {
+  border: none;
+  background: transparent;
   cursor: pointer;
   padding: 0;
 }
 
-.wrapper {
-  overflow: hidden;
-  position: relative;
+*, *::after, *::before {
+  box-sizing: border-box;
+}
 
+.wrapper {
+  position: relative;
+  overflow: hidden;
   min-height: 100%;
 }
 
-.container {
+.x-container {
+  width: 1200px;
   margin: 0 auto;
-
-  &--xl {
-    width: 1200px;
-  }
-
-  &--md {
-    width: 980px;
-  }
 }

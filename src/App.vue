@@ -3,12 +3,10 @@
 </template>
 
 <script>
-
 export default {
   name: 'App',
+  components: {}
 }
 </script>
 
-<style lang="scss">
-  @import "./global";
-</style>
+<style src="./global.scss" lang="scss"></style>

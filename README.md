@@ -1,4 +1,4 @@
-# vue-project
+# gitogram #
 
 ## Project setup
 ```

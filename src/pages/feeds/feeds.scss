@@ -1,15 +1,16 @@
-.feeds {
-  &__icon {
-    width: 50px;
-  }
-
-  &__posts {
-    padding-top: 8px;
-  }
+.stories {
+  display: flex;
+  justify-content: space-between;
 }
 
-.feeds-topline {
-  &__logo {
-    width: 175px;
-  }
+.user__post-wrapper {
+  margin-bottom: 30px;
+}
+
+.user__post-desc {
+  margin-bottom: 35px;
+}
+
+.logo {
+  fill: #292929;
 }
