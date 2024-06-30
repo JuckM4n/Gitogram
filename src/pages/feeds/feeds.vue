@@ -2,20 +2,14 @@
   <div class="header">
     <Header>
       <template #headline>
-        <logo class="logo logo-stories"/>
+        <logo class="logo logo-stories" />
         <navigation :src="user.avatar_url" :username="user.login" />
       </template>
       <template #content>
         <ul class="stories">
-          <li
-            class="stories-item"
-            v-for="item in trendings"
-            :key="item.id"
-          >
-            <story-user-item
-              v-bind="getFeedData(item)"
-              @onPress="$router.push({name: 'stories', params: {initialSlide: item.id}})"
-            />
+          <li class="stories-item" v-for="item in trendings" :key="item.id">
+            <story-user-item v-bind="getFeedData(item)"
+              @onPress="$router.push({ name: 'stories', params: { initialSlide: item.id } })" />
           </li>
         </ul>
       </template>
@@ -32,7 +26,9 @@ import userContent from '@/components/userContent/userContent.vue'
 import navigation from '@/components/navigation/navigation.vue'
 import logo from '@/components/logo/logo.vue'
 import * as api from '../../components/api'
-import { mapActions, mapState } from 'vuex'
+import { useStore } from 'vuex'
+import { onMounted, computed } from 'vue'
+
 export default {
   name: 'Feeds',
   components: {
@@ -42,12 +38,32 @@ export default {
     navigation,
     logo
   },
-  computed: {
-    ...mapState({
-      trendings: (state) => state.trendings.data,
-      starred: (state) => state.starred.data,
-      user: (state) => state.user.data
+
+  setup () {
+    const { dispatch, state } = useStore()
+
+    onMounted(() => {
+      dispatch('trendings/fetchTrendings')
+      dispatch('starred/fetchStarred', { limit: 10 })
+      dispatch('user/getUser')
     })
+
+    const items = []
+    const getFeedData = (item) => {
+      return {
+        avatar: item.owner.avatar_url,
+        username: item.owner.login
+      }
+    }
+
+    return {
+      trendings: computed(() => state.trendings.data),
+      starred: computed(() => state.starred.data),
+      user: computed(() => state.user.data),
+      items,
+      stories,
+      getFeedData
+    }
   },
   async created () {
     try {
@@ -56,33 +72,6 @@ export default {
     } catch (error) {
       console.log(error)
     }
-  },
-  data () {
-    return {
-      stories,
-      items: []
-    }
-  },
-  methods: {
-    handlePress () {
-      console.log(1)
-    },
-    getFeedData (item) {
-      return {
-        avatar: item.owner.avatar_url,
-        username: item.owner.login
-      }
-    },
-    ...mapActions({
-      fetchTrendings: 'trendings/fetchTrendings',
-      fetchStarred: 'starred/fetchStarred',
-      getUser: 'user/getUser'
-    })
-  },
-  mounted () {
-    this.fetchTrendings()
-    this.fetchStarred({ limit: 10 })
-    this.getUser()
   }
 }
 </script>
